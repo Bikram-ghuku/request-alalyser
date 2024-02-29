@@ -1,12 +1,13 @@
 import { useRecoilValue } from "recoil";
-import selectedMessege from "../store/atoms/selectedRed.atom";
-const Details = ({ messeges }) => {
-    const messegesIndex = useRecoilValue(selectedMessege);
-    const messege = messeges[messegesIndex];
-    const { url, method, body, headers, params, query, index, time } = messege;
+import selectedMessege from "../store/atoms/selectedReq.atom";
+import React from "react";
+const RequestDetails = () => {
+    const messege = useRecoilValue(selectedMessege);
+    
+    const { url, method, body, headers, params, query, time } = messege;
 
     return (
-        <div className="grid gap-4 grid-cols-2 max-h-[70vh] overflow-y-auto border border-gray-500 bg-gray-800 text-white rounded-xl">
+        <div className="hide-scroll grid gap-4  max-h-[70vh] overflow-y-auto border border-gray-700 bg-gray-800 text-white rounded-xl ">
             <div className="col-span-2 mt-2">
                 <div className="col-span-2 bg-gray-800 text-white mb-2">
                     {time}
@@ -31,11 +32,26 @@ const Details = ({ messeges }) => {
             <div className="col-span-2">
                 {url}
             </div>
+            <div className="col-span-2 bg-gray-800 text-white font-bold">Request Params</div>
+            {
+                Object.keys(params).map((key, index) => {
+                    return (
+                        <div key={index} className="grid grid-cols-2 col-span-2 border border-gray-700 hover:bg-gray-900">
+                            <div className="col-span-1">
+                                {key}
+                            </div>
+                            <div className="col-span-1">
+                                {params[key]}
+                            </div>
+                        </div>
+                    )
+                })
+            }
             <div className="col-span-2 bg-gray-800 text-white font-bold">Request Query</div>
             {
                 Object.keys(query).map((key, index) => {
                     return (
-                        <div key={index} className="grid grid-cols-2 col-span-2 border border-gray-700 hover:bg-gray-500">
+                        <div key={index} className="grid grid-cols-2 col-span-2 border border-gray-700 hover:bg-gray-900">
                             <div className="col-span-1">
                                 {key}
                             </div>
@@ -50,7 +66,7 @@ const Details = ({ messeges }) => {
             {
                 Object.keys(body).map((key, index) => {
                     return (
-                        <div key={index} className="grid grid-cols-2 col-span-2 border border-gray-700 hover:bg-gray-700">
+                        <div key={index} className="grid grid-cols-2 col-span-2 border border-gray-700 hover:bg-gray-900">
                             <div className="col-span-1">
                                 {key}
                             </div>
@@ -65,7 +81,7 @@ const Details = ({ messeges }) => {
             {
                 Object.keys(headers).map((key, index) => {
                     return (
-                        <div key={index} className="grid grid-cols-2 col-span-2 border border-gray-700 hover:bg-gray-500">
+                        <div key={index} className="grid grid-cols-2 col-span-2 border border-gray-700 hover:bg-gray-900">
                             <div className="col-span-1">
                                 {key}
                             </div>
@@ -76,25 +92,11 @@ const Details = ({ messeges }) => {
                     )
                 })
             }
-            <div className="col-span-2 bg-gray-800 text-white font-bold">Request Params</div>
-            {
-                Object.keys(params).map((key, index) => {
-                    return (
-                        <div key={index} className="grid grid-cols-2 col-span-2 border border-gray-700 hover:bg-gray-500">
-                            <div className="col-span-1">
-                                {key}
-                            </div>
-                            <div className="col-span-1">
-                                {params[key]}
-                            </div>
-                        </div>
-                    )
-                })
-            }
+            
            
 
         </div>
     )
 }
 
-export default Details;
+export default RequestDetails;
